@@ -41,7 +41,7 @@ string callDeepSeekAPI(const string& prompt) {
         
         Json::Value systemMsg;
         systemMsg["role"] = "system";
-        systemMsg["content"] = "You are an expert inventory management assistant. Provide helpful, concise advice about inventory management, product ordering, and stock control.";
+        systemMsg["content"] = "blah blah blah.";
         messages.append(systemMsg);
         
         Json::Value userMsg;
@@ -55,33 +55,27 @@ string callDeepSeekAPI(const string& prompt) {
         Json::StreamWriterBuilder writer;
         string jsonData = Json::writeString(writer, root);
         
-        // Set headers
         struct curl_slist* headers = NULL;
         headers = curl_slist_append(headers, "Content-Type: application/json");
         string authHeader = "Authorization: Bearer " + apiKey;
         headers = curl_slist_append(headers, authHeader.c_str());
         
-        // Set CURL options
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
         curl_easy_setopt(curl, CURLOPT_POSTFIELDS, jsonData.c_str());
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
-        
-        // Perform the request
+
         res = curl_easy_perform(curl);
         
-        // Check for errors
         if (res != CURLE_OK) {
             cerr << "curl_easy_perform() failed: " << curl_easy_strerror(res) << endl;
             return "Error: API request failed.";
         }
-        
-        // Clean up
+
         curl_easy_cleanup(curl);
         curl_slist_free_all(headers);
         
-        // Parse the JSON response
         Json::CharReaderBuilder readerBuilder;
         Json::Value responseJson;
         string errors;
@@ -103,7 +97,7 @@ string callDeepSeekAPI(const string& prompt) {
     return "Error: Could not initialize CURL.";
 }
 
-// Function to add a new inventory item
+// add new inven item
 void addItem() {
     InventoryItem newItem;
     newItem.id = nextId++;
@@ -122,13 +116,12 @@ void addItem() {
     cout << "Item added successfully!" << endl;
 }
 
-// Function to display all inventory items
+// display all inventory items
 void displayInventory() {
     if (inventory.empty()) {
         cout << "Inventory is empty." << endl;
         return;
     }
-    
     cout << "\nID\tName\tQuantity\tPrice" << endl;
     cout << "----------------------------------------" << endl;
     for (const auto& item : inventory) {
@@ -137,7 +130,7 @@ void displayInventory() {
     cout << endl;
 }
 
-// Function to update an inventory item
+// update inventory item
 void updateItem() {
     int id;
     cout << "Enter the ID of the item to update: ";
@@ -155,11 +148,9 @@ void updateItem() {
             return;
         }
     }
-    
     cout << "Item with ID " << id << " not found." << endl;
 }
-
-// Function to delete an inventory item
+// delete inventory item
 void deleteItem() {
     int id;
     cout << "Enter the ID of the item to delete: ";
@@ -172,13 +163,11 @@ void deleteItem() {
             return;
         }
     }
-    
     cout << "Item with ID " << id << " not found." << endl;
 }
-
-// Function to interact with DeepSeek AI
+// interact DeepSeek ai
 void askAI() {
-    cin.ignore(); // Clear input buffer
+    cin.ignore();
     
     string prompt;
     cout << "Ask the AI assistant about inventory management: ";
@@ -192,7 +181,6 @@ void askAI() {
 
 // Main function
 int main() {
-    // Initialize CURL
     curl_global_init(CURL_GLOBAL_DEFAULT);
     
     int choice;
@@ -237,9 +225,9 @@ int main() {
         }
     } while (choice != 6);
     
-    // Clean up CURL
     curl_global_cleanup();
     
     return 0;
 }
+
 
