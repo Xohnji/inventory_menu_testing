@@ -6,7 +6,7 @@
 
 using namespace std;
 
-// Inventory item structure
+// inventory item
 struct InventoryItem {
     int id;
     string name;
@@ -14,27 +14,26 @@ struct InventoryItem {
     double price;
 };
 
-// Global variables
 vector<InventoryItem> inventory;
 int nextId = 1;
 
-// Callback function for CURL to write response data
+// write response data
 static size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
     ((string*)userp)->append((char*)contents, size * nmemb);
     return size * nmemb;
 }
 
-// Function to call DeepSeek API
+// deepSeek api
 string callDeepSeekAPI(const string& prompt) {
     CURL* curl;
     CURLcode res;
     string readBuffer;
-    string apiKey = "sk-32da58316ee645aea45d0c0c6bf26a67"; // Your API key
+    string apiKey = "api-key"; // Your API key
     string url = "https://api.deepseek.com/chat/completions";
 
     curl = curl_easy_init();
     if (curl) {
-        // Prepare the JSON data
+        // json data
         Json::Value root;
         root["model"] = "deepseek-chat";
         
@@ -243,3 +242,4 @@ int main() {
     
     return 0;
 }
+
