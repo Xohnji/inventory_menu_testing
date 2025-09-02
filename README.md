@@ -6,7 +6,9 @@
 
 # For MinGW/GCC:
 `./vcpkg install curl jsoncpp --triplet x64-mingw-dynamic`
+
 `./vcpkg integrate install`
 # For Visual Studio (MSVC):
 `./vcpkg install curl jsoncpp --triplet x64-windows`
+
 `./vcpkg integrate install`
